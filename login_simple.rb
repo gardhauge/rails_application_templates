@@ -61,7 +61,7 @@ insert_into_file 'app/controllers/application_controller.rb',
 insert_into_file 'app/models/user.rb', "has_secure_password\n",
                   after: "class User < ActiveRecord::Base\n"
 insert_into_file 'app/controllers/users_controller.rb',
-                  "  before_filter :authorize, only: [:index, :show, :edit, :destroy]\n",
+                  "  before_filter :authorize, except: [:new]\n",
                   after: "class UsersController < ApplicationController\n"
 
 line = '<%= f.text_field :password %>'
