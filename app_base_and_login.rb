@@ -1,4 +1,4 @@
-# login_simple.rb
+# app_base_and_login.rb
 # Template for setting up a basic rails app with a minimal login system and my
 # favourite gems
 # Login logic inspired by: https://gist.github.com/thebucknerlife/10090014
