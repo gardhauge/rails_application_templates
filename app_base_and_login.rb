@@ -68,8 +68,8 @@ end
 
 after_bundle do
   rake('haml:erb2haml') if use_haml
-  generate('foundation:install', '--force') unless use_haml
-  generate('foundation:install', '--haml', '--force') if use_haml
+  generate('foundation:install', '--force', '--quiet') unless use_haml
+  generate('foundation:install', '--haml', '--force', '--quiet') if use_haml
 
   git :init
   git add: "."

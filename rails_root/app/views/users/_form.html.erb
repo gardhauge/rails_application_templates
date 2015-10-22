@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="small-4 columns">
+  <div class="small-6 columns">
     <%= form_for(@user) do |f| %>
       <% if @user.errors.any? %>
         <div id="error_explanation">
@@ -13,24 +13,42 @@
         </div>
       <% end %>
 
-      <div class="field">
-        <%= f.label :email %><br>
+      <div class="row">
+        <div class="small-4 columns">
+          <%= f.label :email, class: 'right inline' %><br>
+        </div>
+        <div class="small-8 columns">
         <%= f.text_field :email %>
+        </div>
       </div>
-      <div class="field">
-        <%= f.label :name %><br>
-        <%= f.text_field :name %>
+      <div class="row">
+        <div class="small-4 columns">
+          <%= f.label :name, class: 'right inline' %><br>
+        </div>
+        <div class="small-8 columns">
+          <%= f.text_field :name %>
+        </div>
       </div>
-      <div class="field">
-        <%= f.label :password %><br>
-        <%= f.password_field :password %>
+      <div class="row">
+        <div class="small-4 columns">
+          <%= f.label :password, class: 'right inline' %><br>
+        </div>
+        <div class="small-8 columns">
+          <%= f.password_field :password %>
+        </div>
       </div>
-      <div class="field">
-        <%= f.label :password_confirmation %><br>
-        <%= f.password_field :password_confirmation %>
+      <div class="row">
+        <div class="small-4 columns">
+          <%= f.label :password_confirmation, class: 'right inline' %><br>
+        </div>
+        <div class="small-8 columns">
+          <%= f.password_field :password_confirmation %>
+        </div>
       </div>
-      <div class="actions">
-        <%= f.submit class: 'button small' %>
+      <div class="row">
+        <div class="small-4 columns">
+          <%= f.submit class: 'button small radius' %>
+        </div>
       </div>
     <% end %>
   </div>
