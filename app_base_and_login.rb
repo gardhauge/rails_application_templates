@@ -15,6 +15,13 @@ route "post '/users' => 'users#create'"
 
 rake("db:migrate")
 
+gem 'bcrypt', '~> 3.1.7'
+use_haml = yes?("Want to use haml for templates?")
+gem 'haml-rails' if use_haml
+gem_group :development do
+  gem 'better_errors'
+end
+
 def source_paths
   Array(super) +
     [File.join(File.expand_path(File.dirname(__FILE__)),'rails_root')]
@@ -25,7 +32,6 @@ inside 'app' do
   end
   inside 'controllers' do
     copy_file 'sessions_controller.rb'
-    copy_file 'application_controller.rb'
     copy_file 'users_controller.rb'
   end
   inside 'views' do
@@ -43,12 +49,21 @@ inside 'app' do
   end
 end
 
-gem 'bcrypt', '~> 3.1.7'
-use_haml = yes?("Want to use haml for templates?")
-gem 'haml-rails' if use_haml
-gem_group :development do
-  gem 'better_errors'
-end
+# For unknown reasons, replacing application_controller.rb doesn't
+# work, so I have to edit the file instead.
+application_controller_actions =
+'  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
+
+  def authorize
+    redirect_to \'/login\' unless current_user
+  end
+'
+insert_into_file 'app/controllers/application_controller.rb',
+                  application_controller_actions,
+                  after: "protect_from_forgery with: :exception\n"
 
 after_bundle do
   rake('haml:erb2haml') if use_haml
