@@ -21,6 +21,24 @@ gem 'haml-rails' if use_haml
 gem_group :development do
   gem 'better_errors'
 end
+gem 'foundation-rails'
+
+# For unknown reasons, replacing application_controller.rb doesn't
+# work, so I have to edit the file instead.
+application_controller_actions =
+'  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
+
+  def authorize
+    redirect_to \'/login\' unless current_user
+  end
+'
+
+insert_into_file 'app/controllers/application_controller.rb',
+                  application_controller_actions,
+                  after: "protect_from_forgery with: :exception\n"
 
 def source_paths
   Array(super) +
@@ -44,29 +62,15 @@ inside 'app' do
     end
     inside 'sessions' do
       copy_file 'new.html.erb'
-      copy_file 'destroy.html.erb'
     end
   end
 end
 
-# For unknown reasons, replacing application_controller.rb doesn't
-# work, so I have to edit the file instead.
-application_controller_actions =
-'  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  helper_method :current_user
-
-  def authorize
-    redirect_to \'/login\' unless current_user
-  end
-'
-insert_into_file 'app/controllers/application_controller.rb',
-                  application_controller_actions,
-                  after: "protect_from_forgery with: :exception\n"
-
 after_bundle do
   rake('haml:erb2haml') if use_haml
+  generate('foundation:install', '--force') unless use_haml
+  generate('foundation:install', '--haml', '--force') if use_haml
+
   git :init
   git add: "."
   git commit: %Q{ -m 'Initial commit' }
