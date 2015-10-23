@@ -1,24 +1,30 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="small-8 columns">
+    <h2><%= @user.name %></h2>
+  </div>
+</div>
+<% unless notice.nil? %>
+  <div class="row">
+    <div class="small-8 columns">
+      <div data-alert class="alert-box info radius">
+        <p><%= notice %>
+      </div>
+    </div>
+  </div>
+<% end %>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+<div class="row">
+  <div class="small-8 columns">
+    <p>
+      <strong>Email:</strong>
+      <%= @user.email %>
+    </p>
+  </div>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Password:</strong>
-  <%= @user.password %>
-</p>
-
-<p>
-  <strong>Password confirmation:</strong>
-  <%= @user.password_confirmation %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="row">
+  <div class="small-8 columns">
+    <%= link_to 'Edit', edit_user_path(@user) %> |
+    <%= link_to 'Back', users_path %>
+  </div>
+</div>
